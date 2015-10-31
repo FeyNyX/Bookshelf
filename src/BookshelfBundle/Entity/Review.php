@@ -3,6 +3,7 @@
 namespace BookshelfBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ManyToOne;
 
 /**
  * Review
@@ -34,6 +35,11 @@ class Review
      * @ORM\Column(name="review", type="string", length=600)
      */
     private $review;
+
+    /**
+     * @ManyToOne(targetEntity="Book", inversedBy="reviews")
+     */
+    private $book;
 
 
     /**

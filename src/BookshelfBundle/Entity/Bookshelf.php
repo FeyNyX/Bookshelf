@@ -2,7 +2,11 @@
 
 namespace BookshelfBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
  * Bookshelf
@@ -28,6 +32,18 @@ class Bookshelf
      */
     private $name;
 
+    /**
+     * @ManyToMany(targetEntity="Book")
+     * @JoinTable(name="bookshelves_books",
+     *      joinColumns={@JoinColumn(name="bookshelf_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@JoinColumn(name="book_id", referencedColumnName="id")}
+     *      )
+     */
+    private $books;
+
+    private function __construct(){
+        $this->books = new ArrayCollection();
+    }
 
     /**
      * Get id

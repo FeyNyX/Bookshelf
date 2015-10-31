@@ -2,7 +2,10 @@
 
 namespace BookshelfBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 
 /**
  * Book
@@ -42,6 +45,19 @@ class Book
      */
     private $rating;
 
+    /**
+     * @ManyToOne(targetEntity="Author", inversedBy="books")
+     */
+    private $author;
+
+    /**
+     * @OneToMany(targetEntity="Review", mappedBy="book")
+     */
+    private $reviews;
+
+    public function __construct(){
+        $this->reviews = new ArrayCollection();
+    }
 
     /**
      * Get id

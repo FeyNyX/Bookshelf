@@ -6,6 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+/**
+ * Class AuthorController
+ * @package BookshelfBundle\Controller
+ * @Route("/author")
+ */
 class AuthorController extends Controller
 {
     /**
