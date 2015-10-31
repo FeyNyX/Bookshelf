@@ -3,5 +3,8 @@
 {% block title %}BookshelfBundle:Bookshelf:show{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Bookshelf:show page</h1>
+    <h1>Books on a bookshelf {{ bookshelf.name }}:</h1>
+    {% for book in bookshelf %}
+        <a href="{{ path('bookshelf_book_show') }}">{{ book.name }}</a><br>
+    {% endfor %}
 {% endblock %}

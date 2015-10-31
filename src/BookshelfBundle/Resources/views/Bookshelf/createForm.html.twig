@@ -1,0 +1,11 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}BookshelfBundle:Bookshelf:create{% endblock %}
+
+{% block body %}
+    <h1>New bookshelf creator.</h1>
+    {{ form_start(form, {action:path("bookshelf_bookshelf_create")}) }}
+    {{ form_errors(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}
