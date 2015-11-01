@@ -32,6 +32,13 @@ class Book
     private $name;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="pagesNo", type="integer")
+     */
+    private $pagesNo;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=255)
@@ -108,6 +115,30 @@ class Book
     }
 
     /**
+     * Set pagesNo
+     *
+     * @param integer $pagesNo
+     *
+     * @return Book
+     */
+    public function setPagesNo($pagesNo)
+    {
+        $this->pagesNo = $pagesNo;
+
+        return $this;
+    }
+
+    /**
+     * Get pagesNo
+     *
+     * @return integer
+     */
+    public function getPagesNo()
+    {
+        return $this->pagesNo;
+    }
+
+    /**
      * Get description
      *
      * @return string
@@ -140,5 +171,62 @@ class Book
     {
         return $this->rating;
     }
-}
 
+    /**
+     * Set author
+     *
+     * @param \BookshelfBundle\Entity\Author $author
+     *
+     * @return Book
+     */
+    public function setAuthor(\BookshelfBundle\Entity\Author $author = null)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return \BookshelfBundle\Entity\Author
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * Add review
+     *
+     * @param \BookshelfBundle\Entity\Review $review
+     *
+     * @return Book
+     */
+    public function addReview(\BookshelfBundle\Entity\Review $review)
+    {
+        $this->reviews[] = $review;
+
+        return $this;
+    }
+
+    /**
+     * Remove review
+     *
+     * @param \BookshelfBundle\Entity\Review $review
+     */
+    public function removeReview(\BookshelfBundle\Entity\Review $review)
+    {
+        $this->reviews->removeElement($review);
+    }
+
+    /**
+     * Get reviews
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getReviews()
+    {
+        return $this->reviews;
+    }
+}

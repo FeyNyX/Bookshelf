@@ -2,6 +2,7 @@
 
 namespace BookshelfBundle\Controller;
 
+use BookshelfBundle\Entity\Book;
 use BookshelfBundle\Entity\Bookshelf;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -38,8 +39,15 @@ class BookshelfController extends Controller
     {
         $bookshelf = $repo = $this->getDoctrine()->getRepository("BookshelfBundle:Bookshelf")->find($id);
 
+        $form = $this->createFormBuilder()
+            ->add("name", "entity", array("class" => "BookshelfBundle:Book", "choice_label" => "name"))
+            ->add("add", "submit", array("label" => "Add this book"))
+            ->getForm();
+
         return array(
-                "bookshelf" => $bookshelf
+                "bookshelf" => $bookshelf,
+                "bookshelfId" => $bookshelf->getId(),
+                "form" => $form->createView()
             );
     }
 
@@ -50,9 +58,7 @@ class BookshelfController extends Controller
      */
     public function createFormAction()
     {
-        $newBookshelf = new Bookshelf();
-
-        $form = $this->createFormBuilder($newBookshelf)
+        $form = $this->createFormBuilder()
             ->add("name", "text")
             ->add("submit", "submit")
             ->getForm();
@@ -105,6 +111,35 @@ class BookshelfController extends Controller
         $em->flush();
 
         return $this->redirectToRoute("bookshelf_bookshelf_showall");
+    }
+
+    /**
+     * @Route("/addBook/{bookshelfId}")
+     * @Method("POST")
+     */
+    public function addBookAction(Request $request, $bookshelfId)
+    {
+        $addedBook = new Book();
+
+        $form = $this->createFormBuilder($addedBook)
+            ->add("name", "entity", array("class" => "BookshelfBundle:Book", "choice_label" => "name"))
+            ->add("add", "submit", array("label" => "Add this book"))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        // Although it seems weird, this creates a book object that will be then added to the bookshelf.
+        $book = $addedBook->getName();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $repo = $this->getDoctrine()->getRepository("BookshelfBundle:Bookshelf");
+        $bookshelf = $repo->find($bookshelfId);
+
+        $bookshelf->addBook($book);
+        $em->flush();
+
+        return $this->redirectToRoute("bookshelf_bookshelf_show", array("id" => $bookshelfId));
     }
 
 }

@@ -78,5 +78,38 @@ class Bookshelf
     {
         return $this->name;
     }
-}
 
+    /**
+     * Add book
+     *
+     * @param \BookshelfBundle\Entity\Book $book
+     *
+     * @return Bookshelf
+     */
+    public function addBook(\BookshelfBundle\Entity\Book $book)
+    {
+        $this->books[] = $book;
+
+        return $this;
+    }
+
+    /**
+     * Remove book
+     *
+     * @param \BookshelfBundle\Entity\Book $book
+     */
+    public function removeBook(\BookshelfBundle\Entity\Book $book)
+    {
+        $this->books->removeElement($book);
+    }
+
+    /**
+     * Get books
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBooks()
+    {
+        return $this->books;
+    }
+}

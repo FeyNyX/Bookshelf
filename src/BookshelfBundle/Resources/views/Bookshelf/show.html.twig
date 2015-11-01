@@ -3,8 +3,13 @@
 {% block title %}BookshelfBundle:Bookshelf:show{% endblock %}
 
 {% block body %}
-    <h1>Books on a bookshelf {{ bookshelf.name }}:</h1>
-    {% for book in bookshelf %}
+    <h1>You have {{ bookshelf.books|length }} books on a bookshelf {{ bookshelf.name }}:</h1>
+    {% for book in bookshelf.books %}
         <a href="{{ path('bookshelf_book_show') }}">{{ book.name }}</a><br>
     {% endfor %}
+    <hr>
+    {{ form_start(form, {action:path("bookshelf_bookshelf_addbook", {"bookshelfId": bookshelf.id})}) }}
+    {{ form_errors(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 {% endblock %}

@@ -99,5 +99,28 @@ class Review
     {
         return $this->review;
     }
-}
 
+    /**
+     * Set book
+     *
+     * @param \BookshelfBundle\Entity\Book $book
+     *
+     * @return Review
+     */
+    public function setBook(\BookshelfBundle\Entity\Book $book = null)
+    {
+        $this->book = $book;
+
+        return $this;
+    }
+
+    /**
+     * Get book
+     *
+     * @return \BookshelfBundle\Entity\Book
+     */
+    public function getBook()
+    {
+        return $this->book;
+    }
+}
