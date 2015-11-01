@@ -3,5 +3,8 @@
 {% block title %}BookshelfBundle:Review:show{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Review:show page</h1>
+    <h1>{{ review.subject }}</h1>
+    <h3><i>This is a review of a book "{{ review.book.name }}".</i></h3>
+    <hr>
+    <p>{{ review.review }}</p>
 {% endblock %}

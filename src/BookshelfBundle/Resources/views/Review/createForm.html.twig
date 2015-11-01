@@ -3,5 +3,9 @@
 {% block title %}BookshelfBundle:Review:create{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Review:create page</h1>
+    <h1>New review creator.</h1>
+    {{ form_start(form, {action:path("bookshelf_review_create", {"bookId" : bookId})}) }}
+    {{ form_errors(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 {% endblock %}

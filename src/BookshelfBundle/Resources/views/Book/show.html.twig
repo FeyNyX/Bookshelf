@@ -5,13 +5,13 @@
 {% block body %}
     <h1>Book "{{ book.name }}":</h1>
     <a href="{{ path('bookshelf_book_delete', {"id": book.id}) }}"><button>Delete this book permanently</button></a><br>
-    Author: {{ book.author.name }}<br>
+    Author: <a href="{{ path('bookshelf_author_show', {"id": book.author.id}) }}">{{ book.author.name }}</a><br>
     Pages: {{ book.pagesNo }}<br>
     Description: {{ book.description }}<br>
     Reviews ({{ book.reviews|length }}):<br>
     {% for review in book.reviews %}
-        - {{ review.subject }}<br>
+        - <a href="{{ path('bookshelf_review_show', {"id": review.id}) }}">{{ review.subject }}</a><br>
     {% endfor %}
     <hr>
-    <a href="{{ path('bookshelf_review_createform') }}"><button>Create a new review</button></a>
+    <a href="{{ path('bookshelf_review_createform', {"bookId": book.id}) }}"><button>Create a new review</button></a>
 {% endblock %}
