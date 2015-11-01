@@ -3,5 +3,15 @@
 {% block title %}BookshelfBundle:Book:show{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Book:show page</h1>
+    <h1>Book "{{ book.name }}":</h1>
+    <a href="{{ path('bookshelf_book_delete', {"id": book.id}) }}"><button>Delete this book permanently</button></a><br>
+    Author: {{ book.author.name }}<br>
+    Pages: {{ book.pagesNo }}<br>
+    Description: {{ book.description }}<br>
+    Reviews ({{ book.reviews|length }}):<br>
+    {% for review in book.reviews %}
+        - {{ review.subject }}<br>
+    {% endfor %}
+    <hr>
+    <a href="{{ path('bookshelf_review_createform') }}"><button>Create a new review</button></a>
 {% endblock %}

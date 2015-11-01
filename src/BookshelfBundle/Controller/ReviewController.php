@@ -24,6 +24,17 @@ class ReviewController extends Controller
             );    }
 
     /**
+     * @Route("/createForm")
+     * @Template()
+     */
+    public function createFormAction()
+    {
+        return array(
+                // ...
+            );
+    }
+
+    /**
      * @Route("/create")
      * @Template()
      */
@@ -31,7 +42,8 @@ class ReviewController extends Controller
     {
         return array(
                 // ...
-            );    }
+            );
+    }
 
     /**
      * @Route("/delete")

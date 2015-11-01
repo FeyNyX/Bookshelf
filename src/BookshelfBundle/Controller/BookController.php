@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * Class BookController
@@ -16,14 +17,18 @@ use Symfony\Component\HttpFoundation\Request;
 class BookController extends Controller
 {
     /**
-     * @Route("/show")
+     * @Route("/show/{id}")
      * @Template()
      */
-    public function showAction()
+    public function showAction($id)
     {
+        $repo = $this->getDoctrine()->getRepository("BookshelfBundle:Book");
+        $book = $repo->find($id);
+
         return array(
-                // ...
-            );    }
+                'book' => $book
+            );
+    }
 
     // This controller generates a form used to generate a new bookshelf. "createAction" controller (below) handles the form.
     /**
@@ -80,13 +85,19 @@ class BookController extends Controller
     }
 
     /**
-     * @Route("/delete")
-     * @Template()
+     * @Route("/delete{id}")
+     * @Method("POST")
      */
-    public function deleteAction()
+    public function deleteAction($id)
     {
-        return array(
-                // ...
-            );    }
+        $repo = $this->getDoctrine()->getRepository("BookshelfBundle:Book");
+        $book = $repo->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($book);
+        $em->flush();
+
+        return $this->redirectToRoute("bookshelf_bookshelf_showall");
+    }
 
 }
