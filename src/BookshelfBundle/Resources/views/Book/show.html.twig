@@ -8,6 +8,7 @@
     Author: <a href="{{ path('bookshelf_author_show', {"id": book.author.id}) }}">{{ book.author.name }}</a><br>
     Pages: {{ book.pagesNo }}<br>
     Description: {{ book.description }}<br>
+    Rating: {{ book.rating }}<br>
     Reviews ({{ book.reviews|length }}):<br>
     {% for review in book.reviews %}
         - <a href="{{ path('bookshelf_review_show', {"id": review.id}) }}">{{ review.subject }}</a><br>

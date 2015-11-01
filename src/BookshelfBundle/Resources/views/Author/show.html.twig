@@ -3,5 +3,12 @@
 {% block title %}BookshelfBundle:Author:show{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Author:show page</h1>
+    <h1>Author's page: {{ author.name }}</h1>
+    Description: {{ author.description }}<br>
+    Author's books:<br>
+    {% for book in author.books %}
+        - <a href="{{ path('bookshelf_book_show', {"id": book.id}) }}">{{ book.name }}</a><br>
+    {% endfor %}
+    <hr>
+    <a href="{{ path('bookshelf_author_showbestbooks', {"id": author.id}) }}"><button>See this author's best books!</button></a>
 {% endblock %}

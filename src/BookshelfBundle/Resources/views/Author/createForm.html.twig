@@ -1,0 +1,11 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}BookshelfBundle:Author:create{% endblock %}
+
+{% block body %}
+    <h1>New author creator.</h1>
+    {{ form_start(form, {action:path("bookshelf_author_create")}) }}
+    {{ form_errors(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

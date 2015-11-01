@@ -3,5 +3,8 @@
 {% block title %}BookshelfBundle:Author:showBestBooks{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Author:showBestBooks page</h1>
+    <h1>Best books of {{ author.name }}:</h1>
+    {% for book in books %}
+        - <a href="{{ path('bookshelf_book_show', {"id": book.id}) }}">{{ book.name }}</a><br>
+    {% endfor %}
 {% endblock %}
