@@ -94,13 +94,17 @@ class BookshelfController extends Controller
     }
 
     /**
-     * @Route("/delete")
-     * @Template()
+     * @Route("/delete/{id}")
      */
-    public function deleteAction()
+    public function deleteAction($id)
     {
-        return array(
-                // ...
-            );    }
+        $bookshelf = $this->getDoctrine()->getRepository("BookshelfBundle:Bookshelf")->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($bookshelf);
+        $em->flush();
+
+        return $this->redirectToRoute("bookshelf_bookshelf_showall");
+    }
 
 }
