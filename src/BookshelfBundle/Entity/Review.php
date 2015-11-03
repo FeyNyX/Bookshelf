@@ -41,6 +41,36 @@ class Review
      */
     private $book;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="is_deleted", type="integer")
+     */
+    private $isDeleted = 0;
+
+    /**
+     * Set isDeleted
+     *
+     * @param integer $isDeleted
+     *
+     * @return integer
+     */
+    public function setIsDeleted($isDeleted)
+    {
+        $this->isDeleted = $isDeleted;
+
+        return $this;
+    }
+
+    /**
+     * Get isDeleted
+     *
+     * @return integer
+     */
+    public function getIsDeleted()
+    {
+        return $this->isDeleted;
+    }
 
     /**
      * Get id

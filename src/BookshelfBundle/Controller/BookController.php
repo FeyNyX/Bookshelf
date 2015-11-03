@@ -87,7 +87,6 @@ class BookController extends Controller
 
     /**
      * @Route("/delete{id}")
-     * @Method("POST")
      */
     public function deleteAction($id)
     {

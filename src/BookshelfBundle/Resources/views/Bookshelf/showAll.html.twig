@@ -6,7 +6,6 @@
     <h1>List of all bookshelves:</h1>
     {% for bookshelf in bookshelves %}
         <a href="{{ path("bookshelf_bookshelf_show", {"id" : bookshelf.id}) }}">{{ bookshelf.name }}</a>
-         <a href="{{ path("bookshelf_bookshelf_delete", {"id" : bookshelf.id}) }}">DELETE</a><br>
     {% endfor %}
     <hr>
     <a href="{{ path('bookshelf_bookshelf_createform') }}"><button>Create a new bookshelf</button></a>

@@ -91,17 +91,19 @@ class ReviewController extends Controller
 
     /**
      * @Route("/delete/{id}")
-     * @Method("POST")
      */
     public function deleteAction($id)
     {
         $repo = $this->getDoctrine()->getRepository("BookshelfBundle:Review");
         $review = $repo->find($id);
 
+        // Getting id of the book so that we can redirect user back to the book's page.
         $bookId = $review->getBook()->getId();
 
         $em = $this->getDoctrine()->getManager();
-        $em->remove($review);
+        // The review is not being deleted from our DB, but instead the column "is_deleted" is being set to "1",
+        // so that it won't be used anymore. That way data in our DB is more not vulnerable to accidental deletions.
+        $review->setIsDeleted(1);
         $em->flush();
 
         return $this->redirectToRoute("bookshelf_book_show", array("id" => $bookId));

@@ -11,7 +11,11 @@
     Rating: {{ book.rating }}<br>
     Reviews ({{ book.reviews|length }}):<br>
     {% for review in book.reviews %}
-        - <a href="{{ path('bookshelf_review_show', {"id": review.id}) }}">{{ review.subject }}</a><br>
+        {% if review.isDeleted != 1 %}
+            - <a href="{{ path('bookshelf_review_show', {"id": review.id}) }}">{{ review.subject }}</a><br>
+        {% else %}
+            - <del>{{ review.subject }}</del><br>
+        {% endif %}
     {% endfor %}
     <hr>
     <a href="{{ path('bookshelf_review_createform', {"bookId": book.id}) }}"><button>Create a new review</button></a>
