@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * Class ReviewController
@@ -25,8 +26,9 @@ class ReviewController extends Controller
         $review = $repo->find($id);
 
         return array(
-                "review" => $review
-            );    }
+            "review" => $review
+        );
+    }
 
     /**
      * @Route("/createForm/{bookId}")
@@ -41,13 +43,14 @@ class ReviewController extends Controller
             ->getForm();
 
         return array(
-                "form" => $form->createView(),
-                "bookId" => $bookId
-            );
+            "form" => $form->createView(),
+            "bookId" => $bookId
+        );
     }
 
     /**
      * @Route("/create/{bookId}")
+     * @Method("POST")
      */
     public function createAction(Request $request, $bookId)
     {
@@ -64,26 +67,31 @@ class ReviewController extends Controller
         $validator = $this->get("validator");
         $errors = $validator->validate($form);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($newReview);
+        if ($form->isValid()) {
+            // The rest of the code is run only when the form passes the validation.
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($newReview);
 
-        $repo = $this->getDoctrine()->getRepository("BookshelfBundle:Book");
-        $book = $repo->find($bookId);
-        $book->addReview($newReview);
+            // New review is being added to the book.
+            $repo = $this->getDoctrine()->getRepository("BookshelfBundle:Book");
+            $book = $repo->find($bookId);
+            $book->addReview($newReview);
 
-        $newReview->setBook($book);
+            // New book is being added to the review.
+            $newReview->setBook($book);
 
-        $em->flush();
+            $em->flush();
 
-        if($form->isValid()){
             return $this->redirectToRoute("bookshelf_book_show", array("id" => $bookId));
         } else {
+            // "bookId" is being passed again, so that the action still knows which book is being edited.
             return $this->render("BookshelfBundle:Review:createForm.html.twig", array("bookId" => $bookId, "form" => $form, "errors" => $errors));
         }
     }
 
     /**
      * @Route("/delete/{id}")
+     * @Method("POST")
      */
     public function deleteAction($id)
     {

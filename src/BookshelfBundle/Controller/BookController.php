@@ -26,8 +26,8 @@ class BookController extends Controller
         $book = $repo->find($id);
 
         return array(
-                'book' => $book
-            );
+            'book' => $book
+        );
     }
 
     // This controller generates a form used to generate a new bookshelf. "createAction" controller (below) handles the form.
@@ -73,11 +73,12 @@ class BookController extends Controller
         $validator = $this->get("validator");
         $errors = $validator->validate($form);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($newBook);
-        $em->flush();
+        if ($form->isValid()) {
+            // Only if form passes the validation, data is flushed.
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($newBook);
+            $em->flush();
 
-        if($form->isValid()){
             return $this->redirectToRoute("bookshelf_book_show", array("id" => $newBook->getId()));
         } else {
             return $this->render("BookshelfBundle:Book:createForm.html.twig", array("form" => $form, "errors" => $errors));

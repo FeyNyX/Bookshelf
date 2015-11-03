@@ -41,7 +41,8 @@ class Bookshelf
      */
     private $books;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->books = new ArrayCollection();
     }
 
