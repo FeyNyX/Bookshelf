@@ -40,7 +40,7 @@ class BookshelfController extends Controller
         $bookshelf = $repo = $this->getDoctrine()->getRepository("BookshelfBundle:Bookshelf")->find($id);
 
         $form = $this->createFormBuilder()
-            ->add("name", "entity", array("class" => "BookshelfBundle:Book", "choice_label" => "name"))
+            ->add("book", "entity", array("class" => "BookshelfBundle:Book", "choice_label" => "name"))
             ->add("add", "submit", array("label" => "Add this book"))
             ->getForm();
 
@@ -121,25 +121,25 @@ class BookshelfController extends Controller
     // This time I'm passing "bookshelfId" instead of just "id", because I think that in this particular case it's less confusing.
     public function addBookAction(Request $request, $bookshelfId)
     {
-        $addedBook = new Book();
-
-        $form = $this->createFormBuilder($addedBook)
-            // The actual thing that is being held under the "name" is an object of the Book class.
-            ->add("name", "entity", array("class" => "BookshelfBundle:Book", "choice_label" => "name"))
+        $form = $this->createFormBuilder()
+            ->add("book", "entity", array("class" => "BookshelfBundle:Book", "choice_label" => "name"))
             ->add("add", "submit", array("label" => "Add this book"))
             ->getForm();
 
         $form->handleRequest($request);
 
-        // Although it seems weird, this creates a book object that will be then added to the bookshelf.
-        $book = $addedBook->getName();
+        // Getting all data from the form.
+        $formData = $form->getData();
+        // Getting the book that we need from the form.
+        $addedBook = $formData['book'];
 
         $em = $this->getDoctrine()->getManager();
 
         $repo = $this->getDoctrine()->getRepository("BookshelfBundle:Bookshelf");
         $bookshelf = $repo->find($bookshelfId);
 
-        $bookshelf->addBook($book);
+        // Adding a book to the bookshelf.
+        $bookshelf->addBook($addedBook);
         $em->flush();
 
         return $this->redirectToRoute("bookshelf_bookshelf_show", array("id" => $bookshelfId));
